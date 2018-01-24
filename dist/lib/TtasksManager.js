@@ -101,27 +101,27 @@ class TtasksManager extends TbaseService {
         child.on('exit', function (code, signal) {
             var task = this.getRunningTaskByPID(child.pid);
             if (task != null) {
-                this.logger.info("*************  TASK END " + task.pid);
+                this.logger.info("*************  TASK END - PID=" + task.pid + " code=" + code + ", signal=" + signal);
                 delete this.runningProcesses[task.id];
                 if ((task.exitCode == -1) || (task.exitCode == null)) {
                     task.exitCode = code;
                     if (task.exitCode != 0) {
-                        this.logger.info("task." + task.pid + ".stdout=" + task.stdout);
-                        this.logger.info("task." + task.pid + ".stderr=" + task.stderr);
+                        this.logger.debug("task " + task.pid + ".stdout=" + task.stdout);
+                        this.logger.debug("task " + task.pid + ".stderr=" + task.stderr);
                     }
                     if (endCallback)
                         endCallback(null, task);
                 }
                 this.sendCallback(task, "END", function (error, task) {
                     this.removeTask(task.id);
-                    this.logger.info("End task callback sent PID=" + child.pid + ", exitCode=" + code + ", signal=" + signal);
+                    this.logger.debug("End task callback sent PID=" + child.pid + ", exitCode=" + code + ", signal=" + signal);
                 }.bind(this));
             }
             else {
                 this.logger.error("*************  TASK NOT FOUND " + child.pid);
             }
         }.bind(this));
-        this.logger.info("Started task " + task.path + " PID=" + child.pid);
+        this.logger.debug("Started task " + task.path + " PID=" + child.pid);
         return task;
     }
     searchTask(f) {
@@ -269,7 +269,6 @@ class TtasksManager extends TbaseService {
                 else {
                     if (response && (response.statusCode < 400)) {
                         this.logger.debug("Http POST OK: " + task.callback_url);
-                        this.logger.debug("response=", body);
                         if (callback)
                             callback(null, task);
                     }
@@ -310,7 +309,6 @@ class TtasksManager extends TbaseService {
                 res.status(500).send("startTask: " + err);
             return;
         }
-        this.logger.info("/tasks/start");
         res.status(202).send(r);
     }
     _startTaskSync(req, res) {
