@@ -106,8 +106,8 @@ class TtasksManager extends TbaseService {
                 if ((task.exitCode == -1) || (task.exitCode == null)) {
                     task.exitCode = code;
                     if (task.exitCode != 0) {
-                        this.logger.debug("task " + task.pid + ".stdout=" + task.stdout);
-                        this.logger.debug("task " + task.pid + ".stderr=" + task.stderr);
+                        this.logger.info("task " + task.pid + ".stdout=" + task.stdout);
+                        this.logger.info("task " + task.pid + ".stderr=" + task.stderr);
                     }
                     if (endCallback)
                         endCallback(null, task);
