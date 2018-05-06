@@ -17,7 +17,8 @@
     "url": "git+https://github.com/ctoesca/turbine-tasksmanager"
   },
   "keywords": [
-    "turbine","tasksmanager"
+    "turbine",
+    "tasksmanager"
   ],
   "author": "Christophe Toesca <christophe.toesca@gmail.com>",
   "license": "ISC",
@@ -35,7 +36,7 @@
     "gulp-tslint": "^7.0.1",
     "gulp-typedoc": "^2.1.0",
     "gulp-typescript": "^3.1.3",
-    "gulp-minify" :"^2.1.0",
+    "gulp-minify": "^2.1.0",
     "merge2": "^1.0.2",
     "mocha": "^2.5.3",
     "run-sequence": "^1.2.2",
@@ -45,7 +46,9 @@
     "typedoc": "^0.3.12"
   },
   "dependencies": {
+    "bluebird": "^3.5.1",
+    "merge2": "^1.2.2",
     "turbine": "git+https://github.com/ctoesca/turbine.git",
-    "bluebird": "^3.5.1"
+    "typescript": "^2.8.3"
   }
 }
