@@ -1,5 +1,3 @@
-/// <reference types="express" />
-/// <reference types="bluebird" />
 import * as turbine from 'turbine';
 import TbaseService = turbine.services.TbaseService;
 import Ttimer = turbine.tools.Ttimer;
@@ -13,7 +11,7 @@ export declare class TtasksManager extends TbaseService {
     runningProcesses: {};
     refreshTimer: Ttimer;
     app: express.Application;
-    constructor(name: any, server: any, config: any);
+    constructor(name: string, application: turbine.Tapplication, config: any);
     getDefaultConfig(): {
         "active": boolean;
         "executionPolicy": string;
@@ -21,7 +19,7 @@ export declare class TtasksManager extends TbaseService {
         "apiPath": string;
         "userAgent": string;
     };
-    flatify(): Promise<{}>;
+    flatify(): Promise<unknown>;
     start(): void;
     stop(): void;
     execTask(task: any, endCallback?: any): any;

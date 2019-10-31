@@ -13,11 +13,19 @@ const fs = require("fs");
 const bodyParser = require("body-parser");
 const request = require("request");
 class TtasksManager extends TbaseService {
-    constructor(name, server, config) {
-        super(name, config);
+    constructor(name, application, config) {
+        super(name, application, config);
         this.runningTasks = {};
         this.runningProcesses = {};
-        this.httpServer = server;
+        this.httpServer = application.getHttpServer();
+        this.app = express();
+        this.app.use(bodyParser.json({
+            limit: '50mb'
+        }));
+        this.app.post('/start', this._startTask.bind(this));
+        this.app.post('/startSync', this._startTaskSync.bind(this));
+        this.app.post('/:id/kill', this._killTask.bind(this));
+        this.httpServer.use(this.config.apiPath, this.app);
         this.runningTasksDir = this.config.dataDir + "/runningTasks";
         try {
             fs.mkdirSync(this.runningTasksDir);
@@ -49,14 +57,6 @@ class TtasksManager extends TbaseService {
             this.loadTasks();
             this.refreshTimer.start();
             super.start();
-            this.app = express();
-            this.app.use(bodyParser.json({
-                limit: '50mb'
-            }));
-            this.app.post('/start', this._startTask.bind(this));
-            this.app.post('/startSync', this._startTaskSync.bind(this));
-            this.app.post('/:id/kill', this._killTask.bind(this));
-            this.httpServer.use(this.config.apiPath, this.app);
         }
     }
     stop() {
